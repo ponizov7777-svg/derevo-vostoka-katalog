@@ -200,18 +200,15 @@
       padding: 0;
       width: 100%;
       line-height: 0;
-      background: #e6d2b0;
+      background: transparent;
       overflow: hidden;
-      max-height: 140px;
     }
 
     .hero__img {
       display: block;
       width: 100%;
-      height: 140px;
-      /* cover на широком экране зумит текст; contain показывает баннер целиком */
-      object-fit: contain;
-      object-position: center center;
+      height: auto;
+      /* натуральные пропорции: без cover-зума текста и без боковых полей */
       vertical-align: top;
     }
 
