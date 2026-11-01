@@ -144,6 +144,15 @@
 
     .btn--small { padding: 9px 16px; font-size: 14px; }
     .btn--block { width: 100%; }
+    .btn:focus-visible,
+    .filter-list button:focus-visible,
+    .burger:focus-visible,
+    .nav a:focus-visible,
+    .messenger:focus-visible,
+    .card:focus-visible {
+      outline: 2px solid var(--green);
+      outline-offset: 2px;
+    }
 
     .burger {
       display: none;
@@ -152,6 +161,30 @@
       border-radius: 8px;
       padding: 8px 10px;
       cursor: pointer;
+    }
+
+    .filters-more { display: none; }
+
+    .sticky-cta {
+      display: none;
+    }
+
+    .filters-more {
+      display: block;
+    }
+
+    .filters-more > summary {
+      display: none;
+      list-style: none;
+    }
+
+    .filters-more > summary::-webkit-details-marker { display: none; }
+
+    @media (min-width: 961px) {
+      .filters-more > .filters__group,
+      .filters-more > .filters__group + .filters__group {
+        display: block !important;
+      }
     }
 
     /* ---------- Баннер: полноширинное изображение ---------- */
@@ -278,8 +311,11 @@
       border: 1px solid var(--line);
       border-radius: var(--radius);
       overflow: hidden;
-      box-shadow: var(--shadow);
+      box-shadow: none;
       transition: transform .15s ease, border-color .15s ease;
+      height: 100%;
+      cursor: pointer;
+      color: inherit;
     }
 
     .card[hidden] {
@@ -337,7 +373,15 @@
     }
 
     .card__title { margin: 0; font-size: 17px; color: var(--ink); }
-    .card__desc { margin: 0; font-size: 14px; color: var(--ink-soft); }
+    .card__desc {
+      margin: 0;
+      font-size: 14px;
+      color: var(--ink-soft);
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
 
     .card__price {
       margin-top: auto;
@@ -540,40 +584,38 @@
     @media (max-width: 960px) {
       .wrap { padding: 0 16px; }
 
+      body { padding-bottom: calc(72px + env(safe-area-inset-bottom, 0px)); }
+
       .header__inner {
-        flex-wrap: wrap;
         gap: 12px;
-        padding: 12px 16px;
+        padding: 10px 16px;
+        min-height: 56px;
       }
 
       .header__inner > .btn--primary {
-        display: none;
+        margin-left: auto;
+        padding: 10px 14px;
+        min-height: 44px;
       }
 
       .nav { display: none; }
+      .search { display: none; }
 
       .burger {
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        margin-left: auto;
         min-width: 44px;
         min-height: 44px;
         font-size: 20px;
         line-height: 1;
       }
 
-      .search {
-        order: 3;
-        max-width: none;
-        flex-basis: 100%;
-      }
-
       .nav-drawer {
         display: none;
         position: fixed;
         inset: 0;
-        z-index: 30;
+        z-index: 40;
       }
 
       .nav-drawer.is-open { display: block; }
@@ -587,12 +629,12 @@
       .nav-drawer__panel {
         position: absolute;
         top: 0;
-        right: 0;
+        left: 0;
         width: min(320px, 88vw);
         height: 100%;
-        padding: 20px 18px 28px;
+        padding: 20px 18px calc(28px + env(safe-area-inset-bottom, 0px));
         background: var(--paper);
-        box-shadow: -8px 0 28px rgba(40, 24, 12, .18);
+        box-shadow: 8px 0 28px rgba(40, 24, 12, .18);
         display: flex;
         flex-direction: column;
         gap: 8px;
@@ -632,33 +674,59 @@
 
       .nav-drawer .btn { width: 100%; }
 
-      .catalog { grid-template-columns: 1fr; gap: 20px; }
+      .catalog { grid-template-columns: 1fr; gap: 16px; }
 
       .filters {
         position: static;
-        padding: 14px;
+        padding: 12px;
       }
 
+      .filters h3 { display: none; }
+
       .filters__group + .filters__group {
-        margin-top: 14px;
-        padding-top: 14px;
+        margin-top: 10px;
+        padding-top: 0;
+        border-top: 0;
+      }
+
+      .filters-more { margin-top: 4px; }
+
+      .filters-more > summary {
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+        font-size: 14px;
+        font-weight: 600;
+        color: var(--wood-dark);
+        padding: 10px 0;
+        min-height: 44px;
+      }
+
+      .filters-more[open] > summary { color: var(--green); }
+
+      .filters-more .filters__group {
+        margin-top: 8px;
+        padding-top: 8px;
+        border-top: 1px solid var(--line);
       }
 
       .filter-list {
         display: flex;
         gap: 8px;
         overflow-x: auto;
-        padding-bottom: 4px;
+        padding: 2px 2px 6px;
         -webkit-overflow-scrolling: touch;
-        scrollbar-width: thin;
+        scrollbar-width: none;
       }
 
+      .filter-list::-webkit-scrollbar { display: none; }
       .filter-list li { flex: none; }
 
       .filter-list button {
         width: auto;
         white-space: nowrap;
         padding: 10px 14px;
+        min-height: 44px;
         border: 1px solid var(--line);
         border-radius: 999px;
         background: var(--cream);
@@ -675,6 +743,31 @@
         grid-template-columns: repeat(2, minmax(0, 1fr));
         gap: 12px;
       }
+
+      .card__desc { display: none; }
+      .card__body { padding: 12px; gap: 4px; }
+      .card__title { font-size: 15px; }
+      .card .btn { min-height: 40px; }
+
+      .sticky-cta {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 25;
+        padding: 10px 16px calc(10px + env(safe-area-inset-bottom, 0px));
+        background: rgba(255, 253, 248, .96);
+        border-top: 1px solid var(--line);
+        backdrop-filter: blur(8px);
+      }
+
+      .sticky-cta .btn { min-height: 44px; width: 100%; }
+
+      .hero { max-height: 28vw; min-height: 88px; overflow: hidden; }
+      .hero__img { width: 100%; height: 100%; object-fit: cover; object-position: center right; }
 
       .split,
       .b2b,
@@ -694,21 +787,19 @@
       .logo__mark { width: 40px; height: 40px; }
       .logo__text { font-size: 16px; }
 
-      .section { padding: 32px 0; }
+      .section { padding: 28px 0; }
       .section__title { font-size: 22px; }
-      .section__lead { margin-bottom: 18px; font-size: 15px; }
+      .section__lead { margin-bottom: 14px; font-size: 15px; }
 
-      .grid { grid-template-columns: 1fr; gap: 14px; }
-
-      .card__body { padding: 14px; }
-      .ph--photo { padding: 8px; }
+      .grid { gap: 10px; }
+      .ph--photo { padding: 6px; }
 
       .form { padding: 18px; }
 
       .field input,
       .field textarea,
       .field select {
-        font-size: 16px; /* без автозума iOS */
+        font-size: 16px;
         min-height: 44px;
       }
 
@@ -869,99 +960,101 @@
               </ul>
             </div>
 
-            <div class="filters__group">
-              <h3>Назначение</h3>
-              <ul class="filter-list" id="purpose-filters">
-                <li><button type="button" data-purpose="all" aria-pressed="true">Любое</button></li>
-                <li><button type="button" data-purpose="home" aria-pressed="false">Для дома</button></li>
-                <li><button type="button" data-purpose="tourists" aria-pressed="false">Для туристов</button></li>
-                <li><button type="button" data-purpose="business" aria-pressed="false">Для бизнеса</button></li>
-                <li><button type="button" data-purpose="creativity" aria-pressed="false">Для творчества</button></li>
-              </ul>
-            </div>
-
-            <div class="filters__group">
-              <label class="check">
-                <input type="checkbox" id="only-custom" />
-                Только изделия под заказ
-              </label>
-            </div>
+            <details class="filters-more">
+              <summary>Ещё фильтры</summary>
+              <div class="filters__group">
+                <h3>Назначение</h3>
+                <ul class="filter-list" id="purpose-filters">
+                  <li><button type="button" data-purpose="all" aria-pressed="true">Любое</button></li>
+                  <li><button type="button" data-purpose="home" aria-pressed="false">Для дома</button></li>
+                  <li><button type="button" data-purpose="tourists" aria-pressed="false">Для туристов</button></li>
+                  <li><button type="button" data-purpose="business" aria-pressed="false">Для бизнеса</button></li>
+                  <li><button type="button" data-purpose="creativity" aria-pressed="false">Для творчества</button></li>
+                </ul>
+              </div>
+              <div class="filters__group">
+                <label class="check">
+                  <input type="checkbox" id="only-custom" />
+                  Только изделия под заказ
+                </label>
+              </div>
+            </details>
           </aside>
 
           <div class="grid" id="products">
-            <article class="card" data-category="boxes" data-purpose="home">
+            <article class="card" data-category="boxes" data-purpose="home" data-product="Шкатулки" tabindex="0" role="link" aria-label="Шкатулки — оставить заявку">
               <div class="ph ph--photo">
-                <img class="ph__img" src="assets/товар_шкатулки.png" alt="Деревянные шкатулки с лазерной гравировкой" width="640" height="640" loading="lazy" />
+                <img class="ph__img" src="assets/товар_шкатулки.png" alt="" width="640" height="640" loading="lazy" />
               </div>
               <div class="card__body">
                 <h3 class="card__title">Шкатулки</h3>
                 <p class="card__desc">Лазерная резка и гравировка: сувенирные и декоративные</p>
                 <p class="card__price">Цена по запросу</p>
-                <a class="btn btn--ghost btn--small btn--block" href="#order">Подробнее</a>
+                <span class="btn btn--ghost btn--small btn--block" aria-hidden="true">Заказать</span>
               </div>
             </article>
 
-            <article class="card" data-category="trays" data-purpose="home">
+            <article class="card" data-category="trays" data-purpose="home" data-product="Подносы" tabindex="0" role="link" aria-label="Подносы — оставить заявку">
               <div class="ph ph--photo">
-                <img class="ph__img" src="assets/товар_подносы.png" alt="Резные деревянные подносы: баран и рыба" width="640" height="640" loading="lazy" />
+                <img class="ph__img" src="assets/товар_подносы.png" alt="" width="640" height="640" loading="lazy" />
               </div>
               <div class="card__body">
                 <h3 class="card__title">Подносы</h3>
                 <p class="card__desc">Резные подносы из массива: баран, рыба и другие формы</p>
                 <p class="card__price">Цена по запросу</p>
-                <a class="btn btn--ghost btn--small btn--block" href="#order">Подробнее</a>
+                <span class="btn btn--ghost btn--small btn--block" aria-hidden="true">Заказать</span>
               </div>
             </article>
 
-            <article class="card" data-category="clocks" data-purpose="home">
+            <article class="card" data-category="clocks" data-purpose="home" data-product="Часы на дереве" tabindex="0" role="link" aria-label="Часы на дереве — оставить заявку">
               <div class="ph ph--photo">
-                <img class="ph__img" src="assets/товар_часы.png" alt="Часы на дереве с лазерной гравировкой" width="640" height="640" loading="lazy" />
+                <img class="ph__img" src="assets/товар_часы.png" alt="" width="640" height="640" loading="lazy" />
               </div>
               <div class="card__body">
                 <h3 class="card__title">Часы на дереве</h3>
                 <p class="card__desc">Массив дерева, лазерная гравировка и металлические стрелки</p>
                 <p class="card__price">Цена по запросу</p>
-                <a class="btn btn--ghost btn--small btn--block" href="#order">Подробнее</a>
+                <span class="btn btn--ghost btn--small btn--block" aria-hidden="true">Заказать</span>
               </div>
             </article>
 
-            <article class="card" data-category="keychains" data-purpose="tourists">
+            <article class="card" data-category="keychains" data-purpose="tourists" data-product="Брелоки" tabindex="0" role="link" aria-label="Брелоки — оставить заявку">
               <div class="ph ph--photo">
-                <img class="ph__img" src="assets/товар_брелоки.png" alt="Деревянные брелоки с лазерной гравировкой" width="640" height="640" loading="lazy" />
+                <img class="ph__img" src="assets/товар_брелоки.png" alt="" width="640" height="640" loading="lazy" />
               </div>
               <div class="card__body">
                 <h3 class="card__title">Брелоки</h3>
                 <p class="card__desc">Лазерная гравировка, серии восхождений и сувенирные формы</p>
                 <p class="card__price">Цена по запросу</p>
-                <a class="btn btn--ghost btn--small btn--block" href="#order">Подробнее</a>
+                <span class="btn btn--ghost btn--small btn--block" aria-hidden="true">Заказать</span>
               </div>
             </article>
 
-            <article class="card" data-category="magnets" data-purpose="tourists">
+            <article class="card" data-category="magnets" data-purpose="tourists" data-product="Магниты" tabindex="0" role="link" aria-label="Магниты — оставить заявку">
               <div class="ph ph--photo">
-                <img class="ph__img" src="assets/товар_магниты.png" alt="Деревянные магниты с видами и надписями" width="640" height="640" loading="lazy" />
+                <img class="ph__img" src="assets/товар_магниты.png" alt="" width="640" height="640" loading="lazy" />
               </div>
               <div class="card__body">
                 <h3 class="card__title">Магниты</h3>
                 <p class="card__desc">Туристические магниты с видами, слоганами и контурами гор</p>
                 <p class="card__price">Цена по запросу</p>
-                <a class="btn btn--ghost btn--small btn--block" href="#order">Подробнее</a>
+                <span class="btn btn--ghost btn--small btn--block" aria-hidden="true">Заказать</span>
               </div>
             </article>
 
-            <article class="card" data-category="plaques" data-purpose="business">
+            <article class="card" data-category="plaques" data-purpose="business" data-product="Таблички" tabindex="0" role="link" aria-label="Таблички — оставить заявку">
               <div class="ph ph--photo">
-                <img class="ph__img" src="assets/товар_таблички.png" alt="Деревянная вывеска базы отдыха подножье ПИДАНА" width="640" height="640" loading="lazy" />
+                <img class="ph__img" src="assets/товар_таблички.png" alt="" width="640" height="640" loading="lazy" />
               </div>
               <div class="card__body">
                 <h3 class="card__title">Таблички</h3>
                 <p class="card__desc">Указатели и вывески для базы, кафе, номеров</p>
                 <p class="card__price">Цена по запросу</p>
-                <a class="btn btn--ghost btn--small btn--block" href="#order">Подробнее</a>
+                <span class="btn btn--ghost btn--small btn--block" aria-hidden="true">Заказать</span>
               </div>
             </article>
 
-            <article class="card" data-category="pendants" data-purpose="tourists">
+            <article class="card" data-category="pendants" data-purpose="tourists" data-product="Кулоны" tabindex="0" role="link" aria-label="Кулоны — оставить заявку">
               <div class="ph">
                 <svg class="ph__icon" aria-hidden="true"><use href="#i-pendant" /></svg>
                 <span class="ph__label">Фото: кулоны</span>
@@ -970,23 +1063,23 @@
                 <h3 class="card__title">Кулоны</h3>
                 <p class="card__desc">Подвески с рельефом на ЧПУ и шнуром</p>
                 <p class="card__price">Цена по запросу</p>
-                <a class="btn btn--ghost btn--small btn--block" href="#order">Подробнее</a>
+                <span class="btn btn--ghost btn--small btn--block" aria-hidden="true">Заказать</span>
               </div>
             </article>
 
-            <article class="card" data-category="blanks" data-purpose="creativity">
+            <article class="card" data-category="blanks" data-purpose="creativity" data-product="Заготовки для творчества" tabindex="0" role="link" aria-label="Заготовки для творчества — оставить заявку">
               <div class="ph ph--photo">
-                <img class="ph__img" src="assets/товар_заготовки.png" alt="Деревянные заготовки для творчества: цветы, листья и животные" width="640" height="640" loading="lazy" />
+                <img class="ph__img" src="assets/товар_заготовки.png" alt="" width="640" height="640" loading="lazy" />
               </div>
               <div class="card__body">
                 <h3 class="card__title">Заготовки для творчества</h3>
                 <p class="card__desc">Цветы, листья и животные под роспись и декор</p>
                 <p class="card__price">Цена по запросу</p>
-                <a class="btn btn--ghost btn--small btn--block" href="#order">Подробнее</a>
+                <span class="btn btn--ghost btn--small btn--block" aria-hidden="true">Заказать</span>
               </div>
             </article>
 
-            <article class="card" data-category="custom" data-purpose="business home tourists creativity">
+            <article class="card" data-category="custom" data-purpose="business home tourists creativity" data-product="Изделие под заказ" tabindex="0" role="link" aria-label="Изделия под заказ — обсудить заявку">
               <div class="ph">
                 <svg class="ph__icon" aria-hidden="true"><use href="#i-custom" /></svg>
                 <span class="ph__label">Фото: под заказ</span>
@@ -996,7 +1089,7 @@
                 <h3 class="card__title">Изделия под заказ</h3>
                 <p class="card__desc">Ваш макет, логотип или надпись на дереве</p>
                 <p class="card__price">Цена по запросу</p>
-                <a class="btn btn--ghost btn--small btn--block" href="#order">Обсудить заказ</a>
+                <span class="btn btn--ghost btn--small btn--block" aria-hidden="true">Обсудить заказ</span>
               </div>
             </article>
           </div>
@@ -1224,11 +1317,17 @@
     </div>
   </footer>
 
+  <div class="sticky-cta" aria-label="Быстрый заказ">
+    <a class="btn btn--ghost" href="tel:+70000000000">Позвонить</a>
+    <a class="btn btn--primary" href="#order">Оставить заявку</a>
+  </div>
+
   <script>
     const categoryFilters = document.getElementById('filters');
     const purposeFilters = document.getElementById('purpose-filters');
     const cards = [...document.querySelectorAll('#products .card')];
     const onlyCustom = document.getElementById('only-custom');
+    const productSelect = document.getElementById('product');
     const burger = document.querySelector('.burger');
     const drawer = document.getElementById('mobile-nav');
     let activeCategory = 'all';
@@ -1265,6 +1364,16 @@
       document.body.style.overflow = '';
     }
 
+    function goOrder(productName) {
+      if (productName && productSelect) {
+        const option = [...productSelect.options].find(item => item.value === productName || item.textContent === productName);
+        if (option) productSelect.value = option.value || option.textContent;
+      }
+      closeNav();
+      document.getElementById('order').scrollIntoView({ behavior: 'smooth', block: 'start' });
+      window.setTimeout(() => document.getElementById('name')?.focus(), 350);
+    }
+
     burger.addEventListener('click', () => {
       if (drawer.classList.contains('is-open')) closeNav();
       else openNav();
@@ -1295,6 +1404,20 @@
     });
 
     onlyCustom.addEventListener('change', render);
+
+    document.getElementById('products').addEventListener('click', event => {
+      const card = event.target.closest('.card[data-product]');
+      if (!card) return;
+      goOrder(card.dataset.product);
+    });
+
+    document.getElementById('products').addEventListener('keydown', event => {
+      if (event.key !== 'Enter' && event.key !== ' ') return;
+      const card = event.target.closest('.card[data-product]');
+      if (!card) return;
+      event.preventDefault();
+      goOrder(card.dataset.product);
+    });
 
     document.getElementById('order-form').addEventListener('submit', event => {
       event.preventDefault();
