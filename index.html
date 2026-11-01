@@ -806,13 +806,15 @@
 
       .hero {
         max-height: 120px;
-        background: transparent;
+        /* тон фона баннера — чтобы letterbox при contain не был белым */
+        background: #e6d2b0;
       }
 
       .hero__img {
         width: 100%;
         height: 120px;
-        object-fit: cover;
+        /* cover на узких экранах режет бока текста на баннере */
+        object-fit: contain;
         object-position: center center;
       }
 
