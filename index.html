@@ -96,6 +96,8 @@
       line-height: 1.1;
       color: var(--wood-dark);
       letter-spacing: 0.2px;
+      min-width: 0;
+      overflow: hidden;
     }
 
     .search {
@@ -175,8 +177,6 @@
       cursor: pointer;
     }
 
-    .filters-more { display: none; }
-
     .sticky-cta {
       display: none;
     }
@@ -188,16 +188,11 @@
     .filters-more > summary {
       display: none;
       list-style: none;
+      cursor: pointer;
     }
 
     .filters-more > summary::-webkit-details-marker { display: none; }
 
-    @media (min-width: 961px) {
-      .filters-more > .filters__group,
-      .filters-more > .filters__group + .filters__group {
-        display: block !important;
-      }
-    }
 
     /* ---------- Баннер: полноширинное изображение ---------- */
     .hero {
@@ -385,7 +380,15 @@
       flex: 1;
     }
 
-    .card__title { margin: 0; font-size: 17px; color: var(--ink); }
+    .card__title {
+      margin: 0;
+      font-size: 17px;
+      color: var(--ink);
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
     .card__desc {
       margin: 0;
       font-size: 14px;
@@ -600,15 +603,17 @@
       body { padding-bottom: calc(72px + env(safe-area-inset-bottom, 0px)); }
 
       .header__inner {
-        gap: 12px;
-        padding: 10px 16px;
+        gap: 8px;
+        padding: 10px 12px;
         min-height: 56px;
       }
 
       .header__inner > .btn--primary {
+        flex: none;
         margin-left: auto;
-        padding: 10px 14px;
+        padding: 10px 12px;
         min-height: 44px;
+        font-size: 14px;
       }
 
       .nav { display: none; }
@@ -618,6 +623,7 @@
         display: inline-flex;
         align-items: center;
         justify-content: center;
+        flex: none;
         min-width: 44px;
         min-height: 44px;
         font-size: 20px;
@@ -707,7 +713,6 @@
       .filters-more > summary {
         display: flex;
         align-items: center;
-        cursor: pointer;
         font-size: 14px;
         font-weight: 600;
         color: var(--wood-dark);
@@ -716,6 +721,11 @@
       }
 
       .filters-more[open] > summary { color: var(--green); }
+
+      /* Жёстко прячем содержимое, пока details закрыт */
+      .filters-more:not([open]) > :not(summary) {
+        display: none !important;
+      }
 
       .filters-more .filters__group {
         margin-top: 8px;
@@ -765,8 +775,9 @@
 
       .card__desc { display: none; }
       .card__body { padding: 12px; gap: 4px; }
-      .card__title { font-size: 15px; }
-      .card .btn { min-height: 40px; }
+      .card__title { font-size: 15px; line-height: 1.25; }
+      .card__price { font-size: 13px; }
+      .card .btn { min-height: 40px; padding: 8px 10px; font-size: 13px; }
 
       .sticky-cta {
         display: grid;
@@ -1255,15 +1266,15 @@
             <div class="field">
               <label for="product">Интересует</label>
               <select id="product" name="product">
-                <option>Шкатулки</option>
-                <option>Подносы</option>
-                <option>Часы на дереве</option>
-                <option>Брелоки</option>
-                <option>Магниты</option>
-                <option>Таблички</option>
-                <option>Кулоны</option>
-                <option>Заготовки для творчества</option>
-                <option>Изделие под заказ</option>
+                <option value="Шкатулки">Шкатулки</option>
+                <option value="Подносы">Подносы</option>
+                <option value="Часы на дереве">Часы на дереве</option>
+                <option value="Брелоки">Брелоки</option>
+                <option value="Магниты">Магниты</option>
+                <option value="Таблички">Таблички</option>
+                <option value="Кулоны">Кулоны</option>
+                <option value="Заготовки для творчества">Заготовки для творчества</option>
+                <option value="Изделие под заказ">Изделие под заказ</option>
               </select>
             </div>
             <div class="field">
@@ -1352,8 +1363,19 @@
     const productSelect = document.getElementById('product');
     const burger = document.querySelector('.burger');
     const drawer = document.getElementById('mobile-nav');
+    const filtersMore = document.querySelector('.filters-more');
+    const desktopMq = window.matchMedia('(min-width: 961px)');
     let activeCategory = 'all';
     let activePurpose = 'all';
+
+    function syncFiltersMore(forceMobileClosed = false) {
+      if (!filtersMore) return;
+      if (desktopMq.matches) {
+        filtersMore.open = true;
+      } else if (forceMobileClosed) {
+        filtersMore.open = false;
+      }
+    }
 
     function setPressed(list, button) {
       list.querySelectorAll('button').forEach(item => {
@@ -1445,6 +1467,9 @@
       event.preventDefault();
       alert('Прототип: отправка заявки пока не подключена.');
     });
+
+    syncFiltersMore(true);
+    desktopMq.addEventListener('change', () => syncFiltersMore(true));
   </script>
 </body>
 </html>
