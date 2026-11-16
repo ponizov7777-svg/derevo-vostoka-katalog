@@ -959,7 +959,7 @@
   <main id="top">
     <section class="hero" aria-label="Баннер каталога">
       <h1 class="visually-hidden">Каталог сувениров из дерева</h1>
-      <p class="visually-hidden">Шкатулки, часы, подносы, брелоки и заготовки</p>
+      <p class="visually-hidden">Шкатулки, часы, подносы, разделочные доски, брелоки и заготовки</p>
       <img
         class="hero__img"
         src="assets/баннер_каталог_v3.png"
@@ -985,6 +985,7 @@
                 <li><button type="button" data-filter="all" aria-pressed="true">Все изделия</button></li>
                 <li><button type="button" data-filter="boxes" aria-pressed="false">Шкатулки</button></li>
                 <li><button type="button" data-filter="trays" aria-pressed="false">Подносы</button></li>
+                <li><button type="button" data-filter="boards" aria-pressed="false">Разделочные</button></li>
                 <li><button type="button" data-filter="clocks" aria-pressed="false">Часы</button></li>
                 <li><button type="button" data-filter="keychains" aria-pressed="false">Брелоки</button></li>
                 <li><button type="button" data-filter="magnets" aria-pressed="false">Магниты</button></li>
@@ -1036,6 +1037,18 @@
               <div class="card__body">
                 <h3 class="card__title">Подносы</h3>
                 <p class="card__desc">Резные подносы из массива: баран, рыба и другие формы</p>
+                <p class="card__price">Цена по запросу</p>
+                <span class="btn btn--ghost btn--small btn--block" aria-hidden="true">Заказать</span>
+              </div>
+            </article>
+
+            <article class="card" data-category="boards" data-purpose="home" data-product="Разделочные доски" tabindex="0" role="link" aria-label="Разделочные доски — оставить заявку">
+              <div class="ph ph--photo">
+                <img class="ph__img" src="assets/товар_разделочные.png" alt="" width="640" height="640" loading="lazy" />
+              </div>
+              <div class="card__body">
+                <h3 class="card__title">Разделочные доски</h3>
+                <p class="card__desc">Резные доски из массива с рельефом: рыбы, орнамент, подвес</p>
                 <p class="card__price">Цена по запросу</p>
                 <span class="btn btn--ghost btn--small btn--block" aria-hidden="true">Заказать</span>
               </div>
@@ -1270,6 +1283,7 @@
               <select id="product" name="product">
                 <option value="Шкатулки">Шкатулки</option>
                 <option value="Подносы">Подносы</option>
+                <option value="Разделочные доски">Разделочные доски</option>
                 <option value="Часы на дереве">Часы на дереве</option>
                 <option value="Брелоки">Брелоки</option>
                 <option value="Магниты">Магниты</option>
@@ -1328,7 +1342,8 @@
           <h4>Каталог</h4>
           <ul>
             <li><a href="#catalog">Шкатулки</a></li>
-            <li><a href="#catalog">Подносы и часы</a></li>
+            <li><a href="#catalog">Подносы и доски</a></li>
+            <li><a href="#catalog">Часы</a></li>
             <li><a href="#catalog">Брелоки и магниты</a></li>
             <li><a href="#catalog">Таблички и кулоны</a></li>
             <li><a href="#catalog">Заготовки для творчества</a></li>
