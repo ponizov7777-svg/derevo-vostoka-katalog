@@ -1054,15 +1054,15 @@
               </div>
             </article>
 
-            <article class="card" data-category="clocks" data-purpose="home" data-product="Часы на дереве" tabindex="0" role="link" aria-label="Часы на дереве — оставить заявку">
+            <article class="card" data-category="clocks" data-purpose="home" data-product="Часы на дереве" data-href="часы.html" tabindex="0" role="link" aria-label="Часы на дереве — смотреть варианты">
               <div class="ph ph--photo">
                 <img class="ph__img" src="assets/товар_часы.png" alt="" width="640" height="640" loading="lazy" />
               </div>
               <div class="card__body">
                 <h3 class="card__title">Часы на дереве</h3>
-                <p class="card__desc">Массив дерева, лазерная гравировка и металлические стрелки</p>
-                <p class="card__price">Цена по запросу</p>
-                <span class="btn btn--ghost btn--small btn--block" aria-hidden="true">Заказать</span>
+                <p class="card__desc">Классика и модели с LED-подсветкой: размеры, материал, срок</p>
+                <p class="card__price">Варианты и цены внутри</p>
+                <span class="btn btn--ghost btn--small btn--block" aria-hidden="true">Смотреть варианты</span>
               </div>
             </article>
 
@@ -1284,6 +1284,7 @@
                 <option value="Подносы">Подносы</option>
                 <option value="Разделочные доски">Разделочные доски</option>
                 <option value="Часы на дереве">Часы на дереве</option>
+                <option value="Часы с подсветкой">Часы с подсветкой</option>
                 <option value="Брелоки">Брелоки</option>
                 <option value="Магниты">Магниты</option>
                 <option value="Таблички">Таблички</option>
@@ -1342,7 +1343,7 @@
           <ul>
             <li><a href="#catalog">Шкатулки</a></li>
             <li><a href="#catalog">Подносы и доски</a></li>
-            <li><a href="#catalog">Часы</a></li>
+            <li><a href="часы.html">Часы</a></li>
             <li><a href="#catalog">Брелоки и магниты</a></li>
             <li><a href="#catalog">Таблички и кулоны</a></li>
             <li><a href="#catalog">Заготовки для творчества</a></li>
@@ -1434,6 +1435,18 @@
       window.setTimeout(() => document.getElementById('name')?.focus(), 350);
     }
 
+    function openCard(card) {
+      if (card.dataset.href) {
+        window.location.href = card.dataset.href;
+        return;
+      }
+      goOrder(card.dataset.product);
+    }
+
+    const params = new URLSearchParams(window.location.search);
+    const presetProduct = params.get('product');
+    if (presetProduct) goOrder(presetProduct);
+
     burger.addEventListener('click', () => {
       if (drawer.classList.contains('is-open')) closeNav();
       else openNav();
@@ -1468,7 +1481,7 @@
     document.getElementById('products').addEventListener('click', event => {
       const card = event.target.closest('.card[data-product]');
       if (!card) return;
-      goOrder(card.dataset.product);
+      openCard(card);
     });
 
     document.getElementById('products').addEventListener('keydown', event => {
@@ -1476,7 +1489,7 @@
       const card = event.target.closest('.card[data-product]');
       if (!card) return;
       event.preventDefault();
-      goOrder(card.dataset.product);
+      openCard(card);
     });
 
     document.getElementById('order-form').addEventListener('submit', event => {
